@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
   constructor(
-    private authS: AuthService,
+    public authS: AuthService,
     private router: Router
   ) { }
 
@@ -44,6 +44,8 @@ export class LoginPageComponent implements OnInit {
       this.form.reset();
       this.submitted = false;
       this.router.navigate(['/admin', 'dashboard']);
+    }, (error) => {
+        this.submitted = false;
     });
     
   }
