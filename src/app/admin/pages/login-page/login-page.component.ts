@@ -26,10 +26,11 @@ export class LoginPageComponent implements OnInit {
       ]),
     });
   }
-
+  submitted: boolean;
   submit(): void{
     // console.log(this.form.controls.password.errors); //! errors
     
+    this.submitted = true;
     if (this.form.invalid) {
       return
     }
@@ -41,6 +42,7 @@ export class LoginPageComponent implements OnInit {
 
     this.authS.login(user).subscribe((res) => { 
       this.form.reset();
+      this.submitted = false;
       this.router.navigate(['/admin', 'dashboard']);
     });
     
