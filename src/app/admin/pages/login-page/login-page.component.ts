@@ -39,7 +39,7 @@ export class LoginPageComponent implements OnInit {
       password: this.form.value.password
     }
 
-    this.authS.login(user).subscribe(() => { 
+    this.authS.login(user).subscribe((res) => { 
       this.form.reset();
       this.router.navigate(['/admin', 'dashboard']);
     });
