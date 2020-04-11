@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Post, fbCreateResponse,  } from '../interfaces/user.interface';
+import { Post, fbCreateResponse, } from '../interfaces/user.interface';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 
@@ -14,14 +14,33 @@ export class PostsService {
     private http: HttpClient
   ) { }
 
-  create(post: Post): Observable<Post> { 
-    return this.http.post(`${environment.FbDbUrl}/posts.json`, post).pipe(map((res: fbCreateResponse) => { 
+  create(post: Post): Observable<Post> {
+    this.getAll()
+    return this.http.post(`${environment.FbDbUrl}/posts.json`, post).pipe(map((res: fbCreateResponse) => {
       return {
         ...post,
         id: res.name,
         date: new Date(post.date)
       }
     }));
+  }
+
+  getAll(): Observable<Post[]> {
+    console.log(this.http.get(`${environment.FbDbUrl}/posts.json`));
     
+    return this.http.get(`${environment.FbDbUrl}/posts.json`)
+      .pipe(
+        map((res: { [key: string]: any }) => {
+          console.log(res);
+          
+          return Object
+            .keys(res)
+            .map(key => ({
+              ...res[key],
+              id: key,
+              data: new Date(res[key].data)
+            }));
+        })
+      )
   }
 }
