@@ -23,6 +23,9 @@ export class LoginPageComponent implements OnInit {
       if (params['loginAgain']) {
         this.message = 'Введіть дані для входу'
       }
+      if (params['authFailed']) {
+        this.message = 'Сесія закінчена, введіть дані заново.'
+      }
     });
     this.form = new FormGroup({
       email: new FormControl(null, [
